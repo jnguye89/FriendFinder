@@ -150,9 +150,34 @@
 
 				</div>
 			</div>
-		</form>
+    </form>
+    
+    <footer class="footer">
+      <div class="container">
+        <p><a href="/api/friends">API Table Link</a></p>
+      </div>
+    </footer>
 
-	</div>
+    <div id="friendMatch" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+  
+      <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Best Match</h4>
+            <h4 class="modal-title" id="bestMatchName"></h4>
+          </div>
+          <div class="modal-body">
+            <h5>Image</h5>
+            <img id="bestMatchUrl" src="">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  
 
 </body>
 </html>
@@ -164,28 +189,35 @@
       event.preventDefault();
 
       var newSurvey = {
-      	name: $("#name").val().trim(),
-      	image: $("#image").val().trim(),
-      	answer1: $("#answer1").val(),
-      	answer2: $("#answer2").val(),
-      	answer3: $("#answer3").val(),
-      	answer4: $("#answer4").val(),
-      	answer5: $("#answer5").val(),
-      	answer6: $("#answer6").val(),
-      	answer7: $("#answer7").val(),
-      	answer8: $("#answer8").val(),
-      	answer9: $("#answer9").val(),
-      	answer10: $("#answer10").val(),
+      	friendName: $("#name").val().trim(),
+      	imageUrl: $("#image").val().trim(),
+      	scores: [
+          $("#answer1").val(),
+          $("#answer2").val(),
+      	  $("#answer3").val(),
+      	  $("#answer4").val(),
+      	  $("#answer5").val(),
+      	  $("#answer6").val(),
+      	  $("#answer7").val(),
+      	  $("#answer8").val(),
+      	  $("#answer9").val(),
+          $("#answer10").val(),
+        ]
       }
+      // console.log(newSurvey);
 
-      console.log(newSurvey);
-  	});
+      $.post("/api/friends", newSurvey, function(data) {
+          //grab best match data
+
+        console.log(data);
+        // friendMatch
+        $("#bestMatchName").text(data.friendName);
+        $("#bestMatchUrl").attr("src", data.imageUrl);
+        
+        $("#friendMatch").modal("toggle");
+
+        });
+
+
+    });
 </script>
-
-
-
-
-
-
-
-
